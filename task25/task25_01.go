@@ -2,44 +2,23 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"time"
 )
 
-type data struct {
-	input  string
-	result bool
+func Sleep(duration time.Duration) {
+	timer := time.NewTimer(duration)
+
+	select {
+	case <-timer.C:
+		return
+	case <-time.After(duration):
+		return
+	}
 }
 
 func main() {
-	testTable := []data{
-		{
-			input:  "abcd",
-			result: true,
-		},
-		{
-			input:  "abCdefAaf",
-			result: false,
-		},
-		{
-			input:  "aabcd",
-			result: false,
-		},
-	}
-	for _, d := range testTable {
-		fmt.Println(areAllCharactersUnique(d.input) == d.result)
-	}
-}
-
-func areAllCharactersUnique(input string) bool {
-	// Описание
-	characters := make(map[rune]bool)
-	lowerInput := strings.ToLower(input)
-
-	for _, c := range lowerInput {
-		if _, exists := characters[c]; exists {
-			return false
-		}
-		characters[c] = true
-	}
-	return true
+	start := time.Now()
+	Sleep(3 * time.Second)
+	elapsed := time.Since(start)
+	fmt.Println("Slept for", elapsed.Seconds(), "seconds")
 }
