@@ -5,13 +5,17 @@ import (
 	"time"
 )
 
-func Sleep01(duration time.Duration) {
-	<-time.After(duration)
+func Sleep02(d time.Duration) time.Time {
+	ticker := time.Tick(d)
+	for done := range ticker {
+		return done
+	}
+	return time.Now()
 }
 
 func main() {
 	start := time.Now()
-	Sleep01(3 * time.Second)
+	Sleep02(3 * time.Second)
 	elapsed := time.Since(start)
 	fmt.Println("Slept for", elapsed.Seconds(), "seconds")
 }

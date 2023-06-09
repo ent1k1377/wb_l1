@@ -6,19 +6,22 @@ import (
 )
 
 func main() {
+
+	var numbers []int
+	func(numbers *[]int) {
+		for i := 100000; i < 1000000; i += 2 {
+			*numbers = append(*numbers, i)
+		}
+	}(&numbers)
+
 	startTime := time.Now()
 
-	numbers := []int{2, 4, 6, 8, 10, 12, 14, 16, 18, 20}
-	fmt.Println(solutionQ(numbers))
-
-	fmt.Println(time.Since(startTime))
-}
-
-func solutionQ(numbers []int) int {
 	result := 0
 	for _, num := range numbers {
 		result += num * num
 	}
 
-	return result
+	fmt.Println(result)
+
+	fmt.Println(time.Since(startTime), time.Since(startTime).Nanoseconds(), "ns")
 }

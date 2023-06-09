@@ -2,25 +2,32 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 type Set struct {
 	s map[string]bool
 }
 
+func (s *Set) Add(value string) {
+	s.s[value] = true
+}
+
 func (s *Set) Print() {
-	q := "set["
+	var output []string
+	var i int
 	for k, _ := range s.s {
-		q += k + " "
+		output = append(output, k)
+		i++
 	}
-	fmt.Println(q + "]")
+	fmt.Println("set[" + strings.Join(output, " ") + "]")
 }
 
 func main() {
 	list := []string{"cat", "cat", "dog", "cat", "tree"}
 	set := Set{s: make(map[string]bool)}
 	for _, v := range list {
-		set.s[v] = true
+		set.Add(v)
 	}
 
 	set.Print()
