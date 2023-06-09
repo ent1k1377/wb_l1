@@ -1,32 +1,30 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"strings"
 )
 
-var justString string
-
-func someFunc() {
-	length := 100
-	var builder strings.Builder
-	createHugeString(&builder, length)
-	justString = builder.String()
-}
+var justString []byte
 
 func main() {
 	someFunc()
-	log.Println(justString)
 }
 
-func createHugeString(builder *strings.Builder, length int) {
+func someFunc() {
+	builder := strings.Builder{}
+	v := createHugeString(&builder, 1<<10)
+	justString = make([]byte, 100)
+	copy(justString, v)
+}
+
+func createHugeString(builder *strings.Builder, length int) string {
 	for i := 0; i < length; i++ {
 		_, err := io.WriteString(builder, "a")
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(builder.Len(), builder.Cap())
 	}
+	return builder.String()
 }
