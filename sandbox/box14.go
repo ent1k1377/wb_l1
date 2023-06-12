@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	slice := []string{"a", "a"}
-
+	slice := make([]string, 0, 3)
+	slice = append(slice, "a", "a")
 	func(slice []string) {
 		slice = append(slice, "a")
 		slice[0] = "b"

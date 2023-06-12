@@ -7,12 +7,12 @@ import (
 
 func main() {
 	wg := sync.WaitGroup{}
-	wg.Add(4)
 	for i := 0; i < 5; i++ {
-		go func(wg *sync.WaitGroup, i int) {
-			fmt.Println(i, wg)
+		wg.Add(1)
+		go func(wg sync.WaitGroup, i int) {
+			fmt.Println(i)
 			wg.Done()
-		}(&wg, i)
+		}(wg, i)
 	}
 	wg.Wait()
 	fmt.Println("exit")
