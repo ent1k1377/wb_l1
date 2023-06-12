@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Остановка программы через селект и канал
 func main() {
 	var wg sync.WaitGroup
 	done := make(chan bool)

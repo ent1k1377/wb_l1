@@ -6,7 +6,7 @@ import (
 )
 
 type Set struct {
-	s map[string]bool // s - это карта (map), которая хранит строки в качестве ключей и булево значение в качестве значения.
+	s map[string]bool
 }
 
 func (set *Set) Add(value string) {
@@ -27,6 +27,8 @@ func main() {
 	for _, v := range list {                             // Итерируемся по элементам среза.
 		set.Add(v) // Добавляем каждый элемент в множество.
 	}
-
+	fmt.Println("Before:")
+	fmt.Println(list)
+	fmt.Println("After:")
 	set.Print() // Выводим элементы множества.
 }

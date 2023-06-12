@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Остановка программы через селект и контекст
 func main() {
 	var wg sync.WaitGroup
 	ctx, cancel := context.WithCancel(context.Background())

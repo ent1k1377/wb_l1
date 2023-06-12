@@ -5,8 +5,9 @@ import (
 	"time"
 )
 
-func Sleep02(d time.Duration) time.Time {
-	ticker := time.Tick(d)
+// Tick - удобная оболочка для NewTicker, предоставляющая доступ только к тиковому каналу. Ждем завершения
+func Sleep02(duration time.Duration) time.Time {
+	ticker := time.Tick(duration)
 	for done := range ticker {
 		return done
 	}
@@ -15,7 +16,8 @@ func Sleep02(d time.Duration) time.Time {
 
 func main() {
 	start := time.Now()
-	Sleep02(3 * time.Second)
-	elapsed := time.Since(start)
-	fmt.Println("Slept for", elapsed.Seconds(), "seconds")
+	fmt.Println("Before sleep")
+	Sleep02(time.Second * 2)
+	fmt.Println("After sleep")
+	fmt.Println(time.Since(start))
 }

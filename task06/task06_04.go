@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Остановка программы через бесконечный for и bool flag
 func main() {
 	var wg sync.WaitGroup
 	stop := false // Флаг остановки выполнения горутины

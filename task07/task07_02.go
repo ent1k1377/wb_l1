@@ -8,7 +8,7 @@ import (
 func main() {
 	var numbers []int
 
-	// Анонимная функция, которая заполняет срез numbers значениями от 65 до 122
+	// Анонимная функция, которая заполняет слайс numbers значениями от 65 до 122
 	func(list *[]int) {
 		for i := 65; i < 123; i++ {
 			*list = append(*list, i)

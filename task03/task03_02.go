@@ -13,7 +13,7 @@ func main() {
 	// WaitGroup для синхронизации горутин
 	var wg sync.WaitGroup
 	// Mutex для обеспечения безопасного доступа к переменной sum из разных горутин
-	var mu sync.RWMutex
+	var mu sync.Mutex
 
 	// Устанавливаем счетчик WaitGroup равным количеству чисел
 	wg.Add(len(numbers))

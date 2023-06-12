@@ -7,7 +7,7 @@ import (
 
 type Counter struct {
 	increment int            // Переменная для инкремента счетчика
-	mu        sync.RWMutex   // RWMutex для синхронизации доступа к счетчику
+	mu        sync.Mutex     // RWMutex для синхронизации доступа к счетчику
 	wg        sync.WaitGroup // WaitGroup для ожидания завершения горутин
 }
 

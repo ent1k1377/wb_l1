@@ -27,7 +27,6 @@ func main() {
 	}
 
 	// Проходим по тестовой таблице и проверяем соответствие результатов функции
-	// areAllCharactersUnique ожидаемым значениям.
 	for _, d := range testTable {
 		fmt.Println(areAllCharactersUnique(d.input) == d.result)
 	}

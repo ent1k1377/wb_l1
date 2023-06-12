@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Остановка программы через селект и закрытие канала
 func main() {
 	var wg sync.WaitGroup
 	stop := make(chan struct{}) // Канал типа struct{} для отправки сигнала остановки горутины

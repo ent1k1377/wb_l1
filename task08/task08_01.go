@@ -1,10 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 	var num int64 = 42    // Исходное число, которое будет изменено
-	var bitIndex uint = 3 // Индекс бита, который будет изменен
+	var bitIndex uint = 5 // Индекс бита, который будет изменен
 	var bitValue int = 0  // Значение, на которое будет изменен бит (0 или 1)
 
 	fmt.Printf("Число до изменений: %d\n", num)    // Вывод исходного числа до изменений

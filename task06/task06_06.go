@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// Остановка программы через селект и остановку через Ctrl+C
 func main() {
 	var wg sync.WaitGroup
 	stop := make(chan os.Signal, 1)

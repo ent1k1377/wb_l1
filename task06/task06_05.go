@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Остановка программы через селект и контекст с таймаутом
 func main() {
 	var wg sync.WaitGroup
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) // Создание контекста с таймаутом 5 секунд

@@ -18,9 +18,9 @@ func NewPoint(x float64, y float64) *Point {
 
 // DistanceTo вычисляет расстояние от текущей точки до заданной точки.
 // Возвращает расстояние между точками.
-func (p *Point) DistanceTo(point *Point) float64 {
-	dx := p.x - point.x
-	dy := p.y - point.y
+func (p *Point) DistanceTo(other *Point) float64 {
+	dx := p.x - other.x
+	dy := p.y - other.y
 	distance := math.Sqrt(dx*dx + dy*dy)
 	return distance
 }

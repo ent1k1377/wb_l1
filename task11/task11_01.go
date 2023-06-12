@@ -6,7 +6,7 @@ import (
 )
 
 type Set struct {
-	s map[string]struct{} // s - это карта (map), которая хранит строки в качестве ключей с пустой структурой в качестве значения.
+	s map[string]struct{}
 }
 
 func NewSet() *Set {

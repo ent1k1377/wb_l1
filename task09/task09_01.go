@@ -8,7 +8,7 @@ func main() {
 
 	var numbers []int
 	func() {
-		for i := 0; i < 20; i++ {
+		for i := 1; i <= 20; i++ {
 			numbers = append(numbers, i) // Создание среза чисел от 0 до 19
 		}
 	}()
