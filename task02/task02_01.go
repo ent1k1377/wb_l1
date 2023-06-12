@@ -3,29 +3,27 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
+// 1. Main. Создаем слайс чисел, создаем waitGroup и добавляем в нее длину слайса,
+// в for range перебираем последовательно все числа и запускаем горутины (одна горутина рассчитывает квадрат переданного числа и выводит в Stdout)
+// Мы используем WaitGroup для ожидания завершения группы задач, через wg.Add мы увеличиваем внутренний счетчик wg
+// через wg.Done мы уменьшаем счетчик на один (defer указывает что вызов функции произойдет перед завершением горутины),
+// а wg.Wait блокирует main и ждет когда в счетчике будет 0
+
 func main() {
-	startTime := time.Now()
-
 	numbers := []int{2, 4, 6, 8, 10}
-	solution(numbers)
-
-	fmt.Println(time.Since(startTime))
-}
-
-func solution(numbers []int) {
 	var wg sync.WaitGroup
 	wg.Add(len(numbers))
 
-	for i, n := range numbers {
-		go func(index int, num int) {
+	for _, n := range numbers {
+		go func(n int) {
 			defer wg.Done()
-			square := num * num
-			fmt.Printf("%d * %d = %d\n", num, num, square)
-		}(i, n)
+			square := n * n
+			fmt.Printf("%d * %d = %d\n", n, n, square)
+		}(n)
 	}
 
 	wg.Wait()
+	fmt.Println("exit")
 }

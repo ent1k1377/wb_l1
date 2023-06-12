@@ -4,25 +4,17 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"sync"
 	"syscall"
-	"time"
 )
 
-// Надо подробнее рассмотреть
-
-func worker(workerID int, dataChannel <-chan string, wg *sync.WaitGroup) {
-	for c := range dataChannel {
-		time.Sleep(time.Second * 3)
-		fmt.Printf("workerID: %d, message: %s\n", workerID, c)
+func worker(id int, message <-chan string) {
+	// Функция воркера, которая получает сообщения из канала и обрабатывает их
+	for m := range message {
+		fmt.Printf("id: %d, message: %s\n", id, m)
 	}
-	fmt.Println(123)
-	wg.Done()
 }
 
 func main() {
-	var wg sync.WaitGroup
-
 	fmt.Print("Введите число воркеров: ")
 	var numberWorker int
 	_, err := fmt.Scan(&numberWorker)
@@ -31,27 +23,26 @@ func main() {
 		return
 	}
 
-	wg.Add(numberWorker)
-	ch := make(chan string, numberWorker)
+	message := make(chan string, numberWorker) // Канал для передачи сообщений между главной горутиной и воркерами
 
 	for i := 0; i < numberWorker; i++ {
-		go worker(i, ch, &wg)
+		go worker(i, message) // Запуск воркеров
 	}
 
+	// Горутина для чтения ввода пользователя и отправки сообщений в канал
 	go func() {
 		for {
-			fmt.Print("You message: ")
 			var input string
-			fmt.Scan(&input)
-			ch <- input
+			fmt.Scan(&input) // Чтение ввода пользователя
+			message <- input // Отправка сообщения в канал
 		}
 	}()
 
-	sigCh := make(chan os.Signal, 1)
-	go signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
+	stop := make(chan os.Signal, 1)
+	go signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM) // Регистрация обработчика сигналов SIGINT и SIGTERM
 
-	<-sigCh
-	close(ch)
-	wg.Wait()
-	fmt.Println("exit")
+	<-stop // Ожидание получения сигнала
+
+	close(message)        // Закрытие канала
+	fmt.Println("\nexit") // Вывод сообщения о завершении программы
 }

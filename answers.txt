@@ -1,0 +1,5 @@
+select
+context
+atomic
+sync map
+закрыть канал на чтение или запись

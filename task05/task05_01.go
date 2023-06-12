@@ -16,30 +16,32 @@ func main() {
 		return
 	}
 
-	timeout := make(chan bool, 1)
+	timeout := make(chan struct{}, 1)
 	go func() {
+		// Горутина для установки таймаута работы программы
 		time.Sleep(time.Second * time.Duration(duration))
-		timeout <- true
+		timeout <- struct{}{}
 	}()
 
-	ch := make(chan string, 1)
+	message := make(chan string, 1)
 	go func() {
-		for c := range ch {
-			time.Sleep(time.Second)
+		// Горутина для обработки сообщений
+		for c := range message {
 			fmt.Printf("message: %s\n", c)
 		}
-		fmt.Println(len(ch), cap(ch))
 	}()
 
 	scanner := bufio.NewScanner(os.Stdin)
 	go func() {
+		// Горутина для чтения ввода пользователя
 		for scanner.Scan() {
 			input := scanner.Text()
-			ch <- input
+			message <- input
 		}
 	}()
 
-	<-timeout
-	close(ch)
-	fmt.Println("exit")
+	<-timeout // Ожидание получения сигнала таймаута
+
+	close(message)        // Закрытие канала message
+	fmt.Println("\nexit") // Вывод сообщения о завершении программы
 }

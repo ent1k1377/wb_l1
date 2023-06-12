@@ -17,20 +17,20 @@ func main() {
 		for {
 			select {
 			case <-done:
-				fmt.Println("Goroutine stopped.")
+				// Остановка выполнения горутины
+				fmt.Println("stop go func")
 				return
 			default:
-				// Ваш код выполнения задачи
-				fmt.Println("Doing some work...")
+				// Бесконечный цикл с печатью "..."
+				fmt.Println("...")
 				time.Sleep(1 * time.Second)
 			}
 		}
 	}()
 
-	time.Sleep(5 * time.Second)
-	fmt.Println("Stopping goroutine...")
-	done <- true
+	time.Sleep(5 * time.Second) // Ожидание 5 секунд
+	done <- true                // Отправка сигнала остановки в канал done
 
-	wg.Wait()
-	fmt.Println("Main goroutine stopped.")
+	wg.Wait()                // Ожидание завершения работы горутины
+	fmt.Println("main stop") // Вывод сообщения о завершении работы программы
 }

@@ -9,8 +9,8 @@ import (
 
 func main() {
 	var wg sync.WaitGroup
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) // Создание контекста с таймаутом 5 секунд
+	defer cancel()                                                          // Отмена контекста при выходе из функции main
 
 	wg.Add(1)
 	go func() {
@@ -19,16 +19,17 @@ func main() {
 		for {
 			select {
 			case <-ctx.Done():
-				fmt.Println("Goroutine stopped.")
+				// Остановка выполнения горутины по сигналу из контекста при истечении времени таймаута
+				fmt.Println("stop go func")
 				return
 			default:
-				// Ваш код выполнения задачи
-				fmt.Println("Doing some work...")
+				// Бесконечный цикл с печатью "..."
+				fmt.Println("...")
 				time.Sleep(1 * time.Second)
 			}
 		}
 	}()
 
-	wg.Wait()
-	fmt.Println("Main goroutine stopped.")
+	wg.Wait()                // Ожидание завершения работы горутины
+	fmt.Println("main stop") // Вывод сообщения о завершении работы программы
 }

@@ -4,13 +4,14 @@ import (
 	"fmt"
 )
 
-type data2 struct {
+type data02 struct {
 	numbers []int
 	result  []int
 }
 
+// Тут тоже самое только сортировка работает со слайсом по указателю
 func main() {
-	testTable := []data2{
+	testTable := []data02{
 		{
 			[]int{10, 5, 2, 1, 4},
 			[]int{1, 2, 4, 5, 10},
@@ -26,13 +27,13 @@ func main() {
 	}
 	for _, v := range testTable {
 		fmt.Printf("Before: %v\n", v.numbers)
-		quickSort2(&v.numbers)
+		quickSort02(&v.numbers)
 		fmt.Printf("After: %v\n", v.numbers)
-		fmt.Println(EqualSlice2(v.result, v.numbers))
+		fmt.Println("Сортировка прошла успешно: ", EqualSlice02(v.result, v.numbers), "\n")
 	}
 }
 
-func quickSort2(q *[]int) {
+func quickSort02(q *[]int) {
 	numbers := *q
 	if len(numbers) <= 1 {
 		return
@@ -51,11 +52,11 @@ func quickSort2(q *[]int) {
 	l := numbers[:i]
 	r := numbers[i+1:]
 
-	quickSort2(&l)
-	quickSort2(&r)
+	quickSort02(&l)
+	quickSort02(&r)
 }
 
-func EqualSlice2(s1, s2 []int) bool {
+func EqualSlice02(s1, s2 []int) bool {
 	if len(s1) != len(s2) {
 		return false
 	}

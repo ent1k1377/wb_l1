@@ -31,11 +31,11 @@ func main() {
 }
 
 func reverseString(s string) string {
-	runes := []rune(s)
+	runes := []rune(s) // Преобразование строки в срез рун
 
 	for i := 0; i < len(runes)/2; i++ {
-		swapIndex := len(runes) - i - 1
-		runes[i], runes[swapIndex] = runes[swapIndex], runes[i]
+		swapIndex := len(runes) - i - 1                         // Индекс для обмена символов
+		runes[i], runes[swapIndex] = runes[swapIndex], runes[i] // Обмен символов
 	}
-	return string(runes)
+	return string(runes) // Преобразование среза рун обратно в строку
 }

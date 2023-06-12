@@ -12,7 +12,7 @@ import (
 func main() {
 	var wg sync.WaitGroup
 	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
+	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM) // Регистрация сигналов SIGINT и SIGTERM для канала stop
 
 	wg.Add(1)
 	go func() {
@@ -21,16 +21,17 @@ func main() {
 		for {
 			select {
 			case <-stop:
-				fmt.Println("Goroutine stopped.")
+				// Остановка выполнения горутины по сигналу из канала stop при получении сигнала SIGINT или SIGTERM
+				fmt.Println("\nstop go func")
 				return
 			default:
-				// Ваш код выполнения задачи
-				fmt.Println("Doing some work...")
+				// Бесконечный цикл с печатью "..."
+				fmt.Println("...")
 				time.Sleep(1 * time.Second)
 			}
 		}
 	}()
 
-	wg.Wait()
-	fmt.Println("Main goroutine stopped.")
+	wg.Wait()                // Ожидание завершения работы горутины
+	fmt.Println("main stop") // Вывод сообщения о завершении работы программы
 }

@@ -12,6 +12,7 @@ type data struct {
 }
 
 func main() {
+	// Тестовые данные для бинарного поиска
 	testTable := []data{
 		{
 			[]int{2, 4, 6, 8, 10, 12, 14, 16, 18, 20},
@@ -45,6 +46,11 @@ func main() {
 		},
 		{
 			[]int{2, 4, 6, 8, 10, 12, 14, 16, 18, 20},
+			1,
+			-1,
+		},
+		{
+			[]int{2, 4, 6, 8, 10, 12, 14, 16, 18, 20},
 			20,
 			9,
 		},
@@ -53,32 +59,40 @@ func main() {
 			21,
 			-1,
 		},
-		{
-			[]int{2, 4, 6, 8, 10, 12, 14, 16, 18, 20},
-			1,
-			-1,
-		},
 	}
+
+	// Проход по всем тестовым данным
 	for _, d := range testTable {
 		index, err := binarySearch(d.numbers, d.target)
 		if err != nil {
 			fmt.Println(err)
+			continue
 		}
-		fmt.Println(index == d.result)
+		fmt.Printf("Индекс найден, значение индекса: %v\n", index)
 	}
 }
 
 func binarySearch(numbers []int, target int) (int, error) {
+	// Инициализация указателей на начальный и конечный индексы
 	l, r := 0, len(numbers)-1
+
+	// Пока левый указатель не превысит правый указатель
 	for l <= r {
+		// Находим средний индекс
 		m := (l + r) / 2
+
+		// Если средний элемент равен целевому значению, возвращаем индекс
 		if numbers[m] == target {
 			return m, nil
 		} else if numbers[m] > target {
+			// Если средний элемент больше целевого значения, сдвигаем правый указатель
 			r = m - 1
 		} else if numbers[m] < target {
+			// Если средний элемент меньше целевого значения, сдвигаем левый указатель
 			l = m + 1
 		}
 	}
-	return -1, errors.New("number does not exist")
+
+	// Если цикл завершился без нахождения индекса, возвращаем ошибку
+	return -1, errors.New("индекс не найден")
 }

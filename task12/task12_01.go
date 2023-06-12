@@ -6,29 +6,27 @@ import (
 )
 
 type Set struct {
-	s map[string]bool
+	s map[string]bool // s - это карта (map), которая хранит строки в качестве ключей и булево значение в качестве значения.
 }
 
-func (s *Set) Add(value string) {
-	s.s[value] = true
+func (set *Set) Add(value string) {
+	set.s[value] = true // Добавляем заданное значение в множество, устанавливая значение true в карте.
 }
 
-func (s *Set) Print() {
-	var output []string
-	var i int
-	for k, _ := range s.s {
-		output = append(output, k)
-		i++
+func (set *Set) Print() {
+	items := make([]string, 0, len(set.s)) // Создаем срез для хранения элементов множества.
+	for item := range set.s {              // Итерируемся по ключам в карте.
+		items = append(items, item) // Добавляем каждый ключ в срез.
 	}
-	fmt.Println("set[" + strings.Join(output, " ") + "]")
+	fmt.Printf("set[%s]\n", strings.Join(items, " ")) // Выводим множество, объединяя элементы среза строк с помощью пробелов.
 }
 
 func main() {
-	list := []string{"cat", "cat", "dog", "cat", "tree"}
-	set := Set{s: make(map[string]bool)}
-	for _, v := range list {
-		set.Add(v)
+	list := []string{"cat", "cat", "dog", "cat", "tree"} // Создаем срез строк.
+	set := Set{s: make(map[string]bool)}                 // Создаем новое множество с пустой картой.
+	for _, v := range list {                             // Итерируемся по элементам среза.
+		set.Add(v) // Добавляем каждый элемент в множество.
 	}
 
-	set.Print()
+	set.Print() // Выводим элементы множества.
 }

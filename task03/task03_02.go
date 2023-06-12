@@ -2,26 +2,37 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"sync"
 )
 
 func main() {
+	numbers := []int{2, 4, 6, 8, 10}
 
-	var numbers []int
-	func(numbers *[]int) {
-		for i := 100000; i < 1000000; i += 2 {
-			*numbers = append(*numbers, i)
-		}
-	}(&numbers)
+	sum := 0
 
-	startTime := time.Now()
+	// WaitGroup для синхронизации горутин
+	var wg sync.WaitGroup
+	// Mutex для обеспечения безопасного доступа к переменной sum из разных горутин
+	var mu sync.RWMutex
 
-	result := 0
+	// Устанавливаем счетчик WaitGroup равным количеству чисел
+	wg.Add(len(numbers))
+	// Запускаем горутины для вычисления квадратов чисел
 	for _, num := range numbers {
-		result += num * num
+		go func(num int) {
+			// Захватываем мьютекс перед обновлением переменной sum
+			mu.Lock()
+			// Освобождаем мьютекс после обновления переменной sum
+			defer mu.Unlock()
+			// Вычисляем квадрат числа и добавляем его к sum
+			sum += num * num
+			// Уменьшаем счетчик WaitGroup после завершения горутины
+			wg.Done()
+		}(num)
 	}
 
-	fmt.Println(result)
-
-	fmt.Println(time.Since(startTime), time.Since(startTime).Nanoseconds(), "ns")
+	// Ожидаем завершения всех горутин
+	wg.Wait()
+	// Выводим сумму квадратов чисел
+	fmt.Println(sum)
 }

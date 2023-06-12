@@ -3,20 +3,21 @@ package main
 import "fmt"
 
 func main() {
-	var num int64 = 42
-	var bitIndex uint = 5
-	var bitValue int = 0
+	var num int64 = 42    // Исходное число, которое будет изменено
+	var bitIndex uint = 3 // Индекс бита, который будет изменен
+	var bitValue int = 0  // Значение, на которое будет изменен бит (0 или 1)
 
-	setBit(&num, bitIndex, bitValue)
-	fmt.Printf("Число после изменения: %d\n", num)
+	fmt.Printf("Число до изменений: %d\n", num)    // Вывод исходного числа до изменений
+	setBit(&num, bitIndex, bitValue)               // Вызов функции для изменения бита в числе
+	fmt.Printf("Число после изменения: %d\n", num) // Вывод числа после изменений
 }
 
 func setBit(n *int64, i uint, bitValue int) {
-	mask := int64(1) << i
+	mask := int64(1) << i // Создание маски с помощью побитового сдвига влево
 
 	if bitValue == 1 {
-		*n |= mask
+		*n |= mask // Установка бита в 1, используя побитовую операцию ИЛИ с маской
 	} else {
-		*n &= ^mask
+		*n &= ^mask // Установка бита в 0, используя побитовую операцию И с инвертированной маской
 	}
 }

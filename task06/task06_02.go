@@ -18,20 +18,20 @@ func main() {
 		for {
 			select {
 			case <-ctx.Done():
-				fmt.Println("Goroutine stopped.")
+				// Остановка выполнения горутины по сигналу от контекста
+				fmt.Println("go func stop")
 				return
 			default:
-				// Ваш код выполнения задачи
-				fmt.Println("Doing some work...")
+				// Бесконечный цикл с печатью "..."
+				fmt.Println("...")
 				time.Sleep(1 * time.Second)
 			}
 		}
 	}()
 
-	time.Sleep(5 * time.Second)
-	fmt.Println("Stopping goroutine...")
-	cancel()
+	time.Sleep(5 * time.Second) // Ожидание 5 секунд
+	cancel()                    // Отмена контекста
 
-	wg.Wait()
-	fmt.Println("Main goroutine stopped.")
+	wg.Wait()                // Ожидание завершения работы горутины
+	fmt.Println("main stop") // Вывод сообщения о завершении работы программы
 }

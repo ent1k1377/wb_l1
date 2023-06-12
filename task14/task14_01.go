@@ -27,6 +27,8 @@ func main() {
 	checkType(<-strCh)
 	checkType(make(chan User))
 	checkType(make(chan interface{}))
+	n := 42
+	checkType(&n)
 }
 
 func checkType(undefined interface{}) {

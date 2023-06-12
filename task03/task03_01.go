@@ -3,40 +3,42 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
 func main() {
-	var numbers []int
-	func(numbers *[]int) {
-		for i := 100000; i < 1000000; i += 2 {
-			*numbers = append(*numbers, i)
-		}
-	}(&numbers)
+	// 0. Создаем слайс длинны n
+	numbers := []int{2, 4, 6, 8, 10}
 
-	startTime := time.Now()
-
+	// Создаем WaitGroup для синхронизации горутин и добавляем в нее длину слайса
 	var wg sync.WaitGroup
 	wg.Add(len(numbers))
-	resultCh := make(chan int, len(numbers))
 
+	// Создаем буферизованный канал для передачи квадратов чисел
+	squareCh := make(chan int, len(numbers))
+
+	// Запускаем горутины для вычисления квадратов чисел
 	for _, num := range numbers {
+		// Создание n горутин
 		go func(num int) {
 			defer wg.Done()
 			square := num * num
-			resultCh <- square
+			// 3.2 Передаем в канал квадрат чисел
+			squareCh <- square
 		}(num)
 	}
 
+	// Запускаем горутину для закрытия канала после завершения всех горутин
 	go func() {
 		wg.Wait()
-		close(resultCh)
+		close(squareCh)
 	}()
 
+	// Суммируем квадраты чисел из канала
 	sum := 0
-	for ch := range resultCh {
+	for ch := range squareCh {
 		sum += ch
 	}
+
+	// Выводим результат
 	fmt.Println(sum)
-	fmt.Println(time.Since(startTime), time.Since(startTime).Nanoseconds(), "ns")
 }
